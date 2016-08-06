@@ -2,9 +2,9 @@ from __future__ import print_function
 from math import sqrt
 import numpy as np
 import tensorflow as tf
-from six.moves import cPickle as pickle
 import csv
 
+# Defines MLP (Multi Layer Perceptron) using tensorflow
 class MLP(Object):
 	# Network shape : [num_neurons_input_layer, num_neurons_hidden_layer_1, num_neurons_hidden_layer_2, ... ,num_neurons_output_layer]
 	def __init__(self, network_shape, initial_learning_rate, decay_steps, decay_rate, regularization_parameter, dropout_keep_prob = 0.5):
@@ -16,6 +16,7 @@ class MLP(Object):
 		self.regularization_parameter = regularization_parameter
 		self.dropout_keep_prob = dropout_keep_prob
 		self.create_network()
+		self.output_file_path = '../results/results.csv'
 		
 	def create_network(self):
 		self.graph = tf.Graph()
@@ -63,7 +64,7 @@ class MLP(Object):
 			# Predictions for the training, validation, and test data.
 			self.prediction = tf.nn.softmax(logits)
 			
-	def train(self, batch_size, num_steps):
+	def train(self, train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels, batch_size, num_steps):
 		old_valid_accuracy = None
 		with tf.Session(graph=self.graph) as session:
 			tf.initialize_all_variables().run()
@@ -89,6 +90,14 @@ class MLP(Object):
 			test_prediction = session.run(prediction, feed_dict={tf_dataset : test_dataset, tf_labels : test_labels, keep_prob : 1.0})
 			test_accuracy = accuracy(test_prediction, test_labels)
 			print("Test accuracy: %.1f%%" % test_accuracy)
+			self.save_results(test_accuracy)
 	  
 	def accuracy(predictions, labels):
 		return (100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1)) / predictions.shape[0])
+		
+	def save_results(self,test_accuracy):
+		print("Saving results to %s", self.output_file_path)
+		with open(self.output_file_path, 'a') as csvfile:
+			spamwriter = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+			spamwriter.writerow([str(self.network_shape),str(self.initial_learning_rate),str(self.decay_steps),str(self.decay_rate),str(self.regularization_parameter),str(test_accuracy)])
+		print("Results saved")
