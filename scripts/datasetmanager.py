@@ -49,8 +49,8 @@ def download_progress_hook(count, blockSize, totalSize):
 			sys.stdout.write(".")
 			sys.stdout.flush()
       
-    last_percent_reported = percent
-        
+		last_percent_reported = percent
+	
 def maybe_download(filename, expected_bytes, force=False):
 	"""Download a file if not present, and make sure it's the right size."""
 	if force or not os.path.exists(filename):
@@ -210,7 +210,7 @@ def load():
 def reformat(dataset, labels):
 	dataset = dataset.reshape((-1, image_size * image_size)).astype(np.float32)
 	# Map 2 to [0.0, 1.0, 0.0 ...], 3 to [0.0, 0.0, 1.0 ...]
-	labels = (np.arange(num_labels) == labels[:,None]).astype(np.float32)
+	labels = (np.arange(num_classes) == labels[:,None]).astype(np.float32)
 	return dataset, labels
 
 # An helper function I wrote to retrieve datasets in main

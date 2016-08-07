@@ -1,16 +1,19 @@
 from __future__ import print_function
 from MLP import MLP
-from datasetmanager import get_and_reformat_all_datasets
+from datasetmanager import download_extract_randomize_save, get_and_reformat_all_datasets
 
 # ===== MAIN =====
+# DOWNLOAD DATASETS
+# download_extract_randomize_save()
+
 # DEFINE MLP
 image_size = 28
 num_labels = 10
-network_shape = [image_size * image_size,600,300,150,num_labels]
+network_shape = [image_size * image_size,784,num_labels]
 initial_learning_rate = 0.1
 decay_steps = 1000
 decay_rate = 0.95
-beta = 0.1
+regularization_parameter = 0.1
 dropout_keep_prob = 0.5
 mlp = MLP(network_shape, initial_learning_rate, decay_steps, decay_rate, regularization_parameter, dropout_keep_prob)
 
