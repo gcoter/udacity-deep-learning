@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 import csv
 
-# Defines MLP (Multi Layer Perceptron) using tensorflow
+# Defines MLP (MultiLayer Perceptron) using tensorflow
 class MLP(object):
 	# Network shape : [num_neurons_input_layer, num_neurons_hidden_layer_1, num_neurons_hidden_layer_2, ... ,num_neurons_output_layer]
 	def __init__(self, network_shape, initial_learning_rate, decay_steps, decay_rate, regularization_parameter, dropout_keep_prob = 0.5):

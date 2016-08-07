@@ -1,6 +1,6 @@
 """ 
 ============================================================================================================
-These are functions defined in this notebook to download the notMNIST dataset
+These are functions defined in a notebook to download the notMNIST dataset
 
 Notebook : https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/1_notmnist.ipynb
 notMNIST : http://yaroslavvb.blogspot.fr/2011/09/notmnist-dataset.html

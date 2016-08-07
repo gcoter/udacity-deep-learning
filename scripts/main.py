@@ -7,6 +7,7 @@ from datasetmanager import download_extract_randomize_save, get_and_reformat_all
 # download_extract_randomize_save()
 
 # DEFINE MLP
+""" With those parameters, I get 86.7% of accuracy """
 image_size = 28
 num_labels = 10
 network_shape = [image_size * image_size,784,num_labels]
