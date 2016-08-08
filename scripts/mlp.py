@@ -1,3 +1,7 @@
+"""
+A class I created to construct my neural networks
+"""
+
 from __future__ import print_function
 from math import sqrt
 import numpy as np

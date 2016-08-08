@@ -1,3 +1,6 @@
+"""
+I use this script to run my tests
+"""
 from __future__ import print_function
 from MLP import MLP
 from datasetmanager import download_extract_randomize_save, get_and_reformat_all_datasets
