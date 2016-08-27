@@ -46,11 +46,11 @@ class MLP(object):
 
 			# Training computation (with dropout)
 			logits = tf.matmul(self.tf_dataset, self.weights[0]) + self.biases[0]
-			for i in range(1,num_layers-2):
+			for i in range(1,self.num_layers-2):
 				with tf.name_scope("layer_"+str(i)) as scope:
-					logits = tf.matmul(tf.nn.dropout(tf.nn.relu(logits), keep_prob), weights[i]) + biases[i]
+					logits = tf.matmul(tf.nn.dropout(tf.nn.relu(logits), self.keep_prob), self.weights[i]) + self.biases[i]
 			
-			logits = tf.matmul(logits, weights[-1]) + biases[-1]
+			logits = tf.matmul(logits, self.weights[-1]) + self.biases[-1]
 
 			# Cross entropy loss
 			self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_labels))

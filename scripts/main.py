@@ -10,11 +10,11 @@ from datasetmanager import download_extract_randomize_save, get_and_reformat_all
 # download_extract_randomize_save()
 
 # DEFINE MLP
-""" With those parameters, I get 86.7% of accuracy """
+""" With those parameters, I get 91.7% of accuracy """
 image_size = 28
 num_labels = 10
-network_shape = [image_size * image_size,600,300,num_labels]
-initial_learning_rate = 0.1
+network_shape = [image_size * image_size,600,300,150,num_labels]
+initial_learning_rate = 0.0001
 decay_steps = 0
 decay_rate = 0
 regularization_parameter = 0.0
