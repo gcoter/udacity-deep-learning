@@ -32,7 +32,7 @@ pixel_depth = 255.0  # Number of levels per pixel.
 train_size = 450000
 valid_size = 50000
 test_size = 18000
-pickle_file_name = 'notMNIST.pickle'
+pickle_file_name = 'smallPickle/notMNIST.pickle'
 
 def download_progress_hook(count, blockSize, totalSize):
 	"""A hook to report the progress of a download. This is mostly intended for users with

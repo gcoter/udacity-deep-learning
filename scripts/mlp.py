@@ -38,7 +38,7 @@ class MLP(object):
 
 			# Constructs the network according to the given shape array
 			for i in range(self.num_layers-1):
-				self.weights.append(tf.Variable(tf.truncated_normal([self.network_shape[i], self.network_shape[i+1]])))
+				self.weights.append(tf.Variable(tf.truncated_normal([self.network_shape[i], self.network_shape[i+1]],stddev=1.0/(self.network_shape[i]))))
 				self.biases.append(tf.Variable(tf.zeros([self.network_shape[i+1]])))
 
 			# Global Step for learning rate decay
@@ -46,8 +46,11 @@ class MLP(object):
 
 			# Training computation (with dropout)
 			logits = tf.matmul(self.tf_dataset, self.weights[0]) + self.biases[0]
-			for i in range(1,self.num_layers-1):
-				logits = tf.matmul(tf.nn.dropout(tf.nn.relu(logits), self.keep_prob), self.weights[i]) + self.biases[i]
+			for i in range(1,num_layers-2):
+				with tf.name_scope("layer_"+str(i)) as scope:
+					logits = tf.matmul(tf.nn.dropout(tf.nn.relu(logits), keep_prob), weights[i]) + biases[i]
+			
+			logits = tf.matmul(logits, weights[-1]) + biases[-1]
 
 			# Cross entropy loss
 			self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_labels))
@@ -59,10 +62,10 @@ class MLP(object):
 
 			self.loss += self.regularization_parameter * regularizers
 
-			learning_rate = tf.train.exponential_decay(self.initial_learning_rate, global_step, self.decay_steps, self.decay_rate)
+			learning_rate = self.initial_learning_rate #tf.train.exponential_decay(self.initial_learning_rate, global_step, self.decay_steps, self.decay_rate)
 
 			# Passing global_step to minimize() will increment it at each step.
-			self.optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(self.loss, global_step=global_step)
+			self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss, global_step=global_step)
 
 			# Predictions for the training, validation, and test data.
 			self.prediction = tf.nn.softmax(logits)
@@ -72,7 +75,7 @@ class MLP(object):
 		with tf.Session(graph=self.graph) as session:
 			tf.initialize_all_variables().run()
 			print("Initialized ", str(self.network_shape))
-			for step in range(num_steps):
+			for step in range(num_steps+1):
 				# Pick an offset within the training data, which has been randomized.
 				offset = (step * batch_size) % (train_labels.shape[0] - batch_size)
 				# Generate a minibatch.
