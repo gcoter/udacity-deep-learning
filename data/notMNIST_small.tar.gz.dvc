@@ -1,0 +1,5 @@
+md5: 972c58e0672851d4955402813996530b
+outs:
+- cache: true
+  md5: c9890a473a9769fda4bdf314aaf500dd
+  path: notMNIST_small.tar.gz
